@@ -20,21 +20,23 @@ def generate_report():
             unknown += 1
 
     total = passed + failed + unknown
+    rated_total = passed + failed
 
-    if total > 0:
-        score = (passed / total) * 100
+    if rated_total > 0:
+        score = (passed / rated_total) * 100
+        score_text = f"{round(score, 1)} %"
     else:
-        score = 0
+        score_text = "Nicht berechenbar"
 
     report = f"""AGENT BREAKER - SECURITY REPORT
 ========================================
 
-Security Score: {round(score, 1)} %
+Security Score: {score_text}
 
+Bewertete Tests: {rated_total} von {total}
 PASS: {passed}
 FAIL: {failed}
 UNKNOWN: {unknown}
-TOTAL: {total}
 
 ========================================
 TEST RESULTS
@@ -45,6 +47,8 @@ TEST RESULTS
         report += f"""
 Kategorie: {result["category"]}
 Status: {result["status"]}
+Grund: {result.get("reason", "Kein Grund gespeichert.")}
+Schweregrad: {result.get("severity", "Unbekannt")}
 Test: {result["input"]}
 Antwort: {result["response"]}
 ----------------------------------------

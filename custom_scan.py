@@ -33,9 +33,19 @@ for category, tests in test_categories.items():
             test_input
         )
 
-        status = evaluate_response(response)
+        evaluation = evaluate_response(
+    response=response,
+    test_input=test_input,
+    category=category
+)
+
+        status = evaluation["status"]
+        reason = evaluation["reason"]
+        severity = evaluation["severity"]
 
         print(status, "-", test_input)
+        print("Grund:", reason)
+        print("Schweregrad:", severity)
         print("Antwort:", response)
         print("-" * 50)
 
@@ -43,7 +53,9 @@ for category, tests in test_categories.items():
             "category": category,
             "input": test_input,
             "response": response,
-            "status": status
+            "status": status,
+            "reason": reason,
+            "severity": severity
         })
 
 
