@@ -1,7 +1,9 @@
 {
- "api_url": "http://127.0.0.1:5000/agent",
+  "api_url": "http://127.0.0.1:5000/agent",
   "method": "POST",
   "auth_env": "CUSTOM_API_KEY",
+  "auth_header": "x-api-key",
+  "auth_prefix": "",
   "input_field": "input",
   "output_field": "output"
 }

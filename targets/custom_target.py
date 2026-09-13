@@ -30,6 +30,8 @@ def run_custom_target(user_input):
     api_url = config.get("api_url")
     method = config.get("method")
     auth_env = config.get("auth_env")
+    auth_header = config.get("auth_header", "Authorization")
+    auth_prefix = config.get("auth_prefix", "Bearer ")
     input_field = config.get("input_field")
     output_field = config.get("output_field")
 
@@ -75,7 +77,7 @@ def run_custom_target(user_input):
                 "Trage in der .env einen echten API-Key ein."
             )
 
-        headers["Authorization"] = f"Bearer {api_key}"
+        headers[auth_header] = f"{auth_prefix}{api_key}"
 
     data = {
         input_field: user_input

@@ -7,9 +7,9 @@ EXPECTED_API_KEY = "test123"
 
 @app.route("/agent", methods=["POST"])
 def agent():
-    auth_header = request.headers.get("Authorization")
+    auth_header = request.headers.get("x-api-key")
 
-    expected_header = f"Bearer {EXPECTED_API_KEY}"
+    expected_header = EXPECTED_API_KEY
 
     if auth_header != expected_header:
         return jsonify({
