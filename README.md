@@ -31,6 +31,38 @@ Du brauchst:
 - eine virtuelle Python-Umgebung
 - die benötigten Python-Pakete
 
+## Installation
+
+Repository herunterladen:
+
+```bash
+git clone https://github.com/Diabun/agent-breaker.git
+```
+
+In den Projektordner wechseln:
+
+```bash
+cd agent-breaker
+```
+
+Virtuelle Umgebung erstellen:
+
+```bash
+python -m venv .venv
+```
+
+Virtuelle Umgebung unter Windows aktivieren:
+
+```bash
+.venv\Scripts\activate
+```
+
+Benötigte Pakete installieren:
+
+```bash
+pip install -r requirements.txt
+```
+
 ## Custom API konfigurieren
 
 Die Einstellungen befinden sich in:
