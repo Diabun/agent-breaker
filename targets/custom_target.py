@@ -63,6 +63,18 @@ def run_custom_target(user_input):
                 f'Der API-Key "{auth_env}" wurde nicht in der .env gefunden.'
             )
 
+        placeholder_values = [
+            "dein_custom_api_key",
+            "dein_api_key",
+            "your_api_key"
+        ]
+
+        if api_key.lower() in placeholder_values:
+            raise RuntimeError(
+                f'Der API-Key "{auth_env}" enthält noch einen Platzhalter. '
+                "Trage in der .env einen echten API-Key ein."
+            )
+
         headers["Authorization"] = f"Bearer {api_key}"
 
     data = {
@@ -86,7 +98,8 @@ def run_custom_target(user_input):
 
     except requests.exceptions.ConnectionError:
         raise RuntimeError(
-            "Die API konnte nicht erreicht werden."
+            "Die API konnte nicht erreicht werden. "
+            "Prüfe, ob die API-Adresse stimmt und ob die API läuft."
         )
 
     except requests.exceptions.Timeout:
