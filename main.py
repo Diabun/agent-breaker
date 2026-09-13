@@ -15,26 +15,19 @@ choice = input("\nAuswahl: ")
 
 test_input = input("\nGib einen Test-Prompt ein: ")
 
+category = input(
+    "\nKategorie eingeben "
+    "(Prompt Injection / Data Leak / Tool Misuse): "
+)
+
 
 if choice == "1":
-    category = input(
-        "\nKategorie eingeben "
-        "(Prompt Injection / Data Leak / Tool Misuse): "
-    )
-
     print("\nOpenAI Target wird getestet...\n")
     response = run_target(test_input)
 
 elif choice == "2":
-    category = input(
-        "\nKategorie eingeben "
-        "(Prompt Injection / Data Leak / Tool Misuse): "
-    )
-
-    api_url = input("\nGib die API-URL ein: ")
-
     print("\nCustom Target wird getestet...\n")
-    response = run_custom_target(api_url, test_input)
+    response = run_custom_target(test_input)
 
 else:
     print("\nUngültige Auswahl.")

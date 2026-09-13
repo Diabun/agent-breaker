@@ -8,9 +8,6 @@ from attacks.data_leak import DATA_LEAK_TESTS
 from attacks.tool_misuse import TOOL_MISUSE_TESTS
 
 
-api_url = input("Gib die API-URL des Targets ein: ")
-
-
 test_categories = {
     "Prompt Injection": PROMPT_INJECTION_TESTS,
     "Data Leak": DATA_LEAK_TESTS,
@@ -29,15 +26,14 @@ for category, tests in test_categories.items():
     for test_input in tests:
 
         response = run_custom_target(
-            api_url,
             test_input
         )
 
         evaluation = evaluate_response(
-    response=response,
-    test_input=test_input,
-    category=category
-)
+            response=response,
+            test_input=test_input,
+            category=category
+        )
 
         status = evaluation["status"]
         reason = evaluation["reason"]
