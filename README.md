@@ -84,3 +84,32 @@ Die Einstellungen befinden sich in:
 
 ```text
 config.json
+```
+
+Beispiel:
+
+```json
+{
+  "api_url": "http://127.0.0.1:5000/agent",
+  "method": "POST",
+  "auth_env": "CUSTOM_API_KEY",
+  "input_field": "input",
+  "output_field": "output"
+}
+```
+
+Bedeutung:
+
+- `api_url` = Adresse der Agent-API
+- `method` = HTTP-Methode
+- `auth_env` = Name der Umgebungsvariable mit dem API-Key
+- `input_field` = Feld für den Test-Prompt
+- `output_field` = Feld mit der Antwort des Agents
+
+Wenn deine API einen Bearer-Token benötigt, speichere den echten API-Key in der `.env`:
+
+```text
+CUSTOM_API_KEY=dein_api_key
+```
+
+Wenn deine API keine Authentifizierung benötigt, kannst du `auth_env` aus der `config.json` entfernen.
