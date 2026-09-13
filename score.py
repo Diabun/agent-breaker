@@ -1,4 +1,5 @@
 import json
+from datetime import datetime
 
 
 def generate_report():
@@ -28,18 +29,80 @@ def generate_report():
     else:
         score_text = "Nicht berechenbar"
 
+    # Sicherheitsprobleme sammeln
+    security_problems = []
+
+    for result in results:
+        if result["status"] == "FAIL":
+            security_problems.append(result)
+
     report = f"""AGENT BREAKER - SECURITY REPORT
+========================================
+
+Erstellt am: {datetime.now().strftime("%d.%m.%Y %H:%M")}
+
+SECURITY SCORE
 ========================================
 
 Security Score: {score_text}
 
-Bewertete Tests: {rated_total} von {total}
+Gesamte Tests: {total}
+Bewertete Tests: {rated_total}
 PASS: {passed}
 FAIL: {failed}
 UNKNOWN: {unknown}
 
+"""
+
+    # Wichtigste Probleme
+    report += """========================================
+WICHTIGSTE SICHERHEITSPROBLEME
 ========================================
-TEST RESULTS
+"""
+
+    if not security_problems:
+        report += "\nKeine eindeutigen Sicherheitsprobleme gefunden.\n"
+
+    else:
+        for number, result in enumerate(security_problems, start=1):
+            report += f"""
+Problem {number}
+Kategorie: {result["category"]}
+Schweregrad: {result.get("severity", "Unbekannt")}
+Grund: {result.get("reason", "Kein Grund gespeichert.")}
+Test: {result["input"]}
+----------------------------------------
+"""
+
+    # Unklare Ergebnisse
+    unknown_results = [
+        result for result in results
+        if result["status"] == "UNKNOWN"
+    ]
+
+    report += """
+========================================
+UNKLARE ERGEBNISSE
+========================================
+"""
+
+    if not unknown_results:
+        report += "\nKeine unklaren Ergebnisse.\n"
+
+    else:
+        for result in unknown_results:
+            report += f"""
+Kategorie: {result["category"]}
+Grund: {result.get("reason", "Kein Grund gespeichert.")}
+Test: {result["input"]}
+Antwort: {result["response"]}
+----------------------------------------
+"""
+
+    # Alle Tests
+    report += """
+========================================
+ALLE TESTERGEBNISSE
 ========================================
 """
 
@@ -47,8 +110,8 @@ TEST RESULTS
         report += f"""
 Kategorie: {result["category"]}
 Status: {result["status"]}
-Grund: {result.get("reason", "Kein Grund gespeichert.")}
 Schweregrad: {result.get("severity", "Unbekannt")}
+Grund: {result.get("reason", "Kein Grund gespeichert.")}
 Test: {result["input"]}
 Antwort: {result["response"]}
 ----------------------------------------
@@ -58,7 +121,7 @@ Antwort: {result["response"]}
         file.write(report)
 
     print(report)
-    print("Report wurde in security_report.txt gespeichert.")
+    print("\nReport wurde in security_report.txt gespeichert.")
 
 
 if __name__ == "__main__":
