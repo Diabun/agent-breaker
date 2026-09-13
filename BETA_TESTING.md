@@ -36,21 +36,45 @@ config.json
 
 Trage dort die API deines Agents ein.
 
-Beispiel:
+### Beispiel mit Bearer-Token
 
 ```json
 {
   "api_url": "http://127.0.0.1:5000/agent",
   "method": "POST",
   "auth_env": "CUSTOM_API_KEY",
+  "auth_header": "Authorization",
+  "auth_prefix": "Bearer ",
   "input_field": "input",
   "output_field": "output"
 }
 ```
 
-Kopiere danach `.env.example` zu `.env` und trage dort deinen API-Key ein, falls deine API einen benötigt.
+Kopiere danach `.env.example` zu `.env` und trage dort deinen echten API-Key ein:
 
-Teile oder veröffentliche deine `.env` niemals.
+```text
+CUSTOM_API_KEY=dein_api_key
+```
+
+Speichere deinen echten API-Key niemals direkt in `config.json` und veröffentliche deine `.env` nicht.
+
+### Beispiel mit x-api-key
+
+Wenn deine API stattdessen einen Header wie `x-api-key` verwendet:
+
+```json
+{
+  "api_url": "http://127.0.0.1:5000/agent",
+  "method": "POST",
+  "auth_env": "CUSTOM_API_KEY",
+  "auth_header": "x-api-key",
+  "auth_prefix": "",
+  "input_field": "input",
+  "output_field": "output"
+}
+```
+
+Wenn deine API keine Authentifizierung benötigt, kannst du `auth_env`, `auth_header` und `auth_prefix` aus `config.json` entfernen.
 
 ## 3. AI-Judge
 
@@ -72,9 +96,11 @@ python custom_scan.py
 
 Agent Breaker führt danach mehrere Security-Tests gegen deinen Agenten aus.
 
+Die Ergebnisse werden lokal in `failures.json` gespeichert.
+
 ## 5. Security Report erstellen
 
-Nach dem Scan:
+Nach einem erfolgreichen Scan:
 
 ```bash
 python score.py
