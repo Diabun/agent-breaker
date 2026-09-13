@@ -63,6 +63,21 @@ Benötigte Pakete installieren:
 pip install -r requirements.txt
 ```
 
+## OpenAI API-Key
+
+Für Funktionen mit dem AI-Judge wird ein OpenAI API-Key benötigt.
+
+Erstelle im Projektordner eine Datei mit dem Namen:
+
+```text
+.env
+
+Füge dort deinen API-Key ein:
+
+```text
+OPENAI_API_KEY=dein_api_key
+```
+
 ## Custom API konfigurieren
 
 Die Einstellungen befinden sich in:
