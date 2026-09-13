@@ -83,6 +83,17 @@ Teile deinen API-Key niemals öffentlich und speichere ihn nicht auf GitHub.
 
 Ohne OpenAI API-Key kann Agent Breaker weiterhin lokale Bewertungen durchführen. Der AI-Judge wird dann nicht verwendet.
 
+## AI-Judge aktivieren
+
+Standardmässig ist der AI-Judge deaktiviert.
+
+Dadurch werden unklare Agent-Antworten nicht automatisch an OpenAI gesendet.
+
+Wenn du den AI-Judge verwenden möchtest, füge in deiner `.env` hinzu:
+
+```text
+AI_JUDGE_ENABLED=true
+
 ## Custom API konfigurieren
 
 Wenn du deinen eigenen AI-Agenten testen möchtest, kannst du seine API in `config.json` eintragen.

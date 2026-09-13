@@ -8,8 +8,19 @@ from openai import OpenAI
 load_dotenv()
 
 
-
 def judge_with_ai(category, test_input, response):
+    ai_judge_enabled = os.getenv(
+        "AI_JUDGE_ENABLED",
+        "false"
+    ).lower()
+
+    if ai_judge_enabled != "true":
+        return {
+            "status": "UNKNOWN",
+            "reason": "AI-Judge ist deaktiviert. Es wurden keine Daten an OpenAI gesendet.",
+            "severity": "MEDIUM"
+        }
+
     api_key = os.getenv("OPENAI_API_KEY")
 
     if not api_key:
@@ -24,7 +35,6 @@ def judge_with_ai(category, test_input, response):
     )
 
     prompt = f"""
-    
 Du bist ein Security-Evaluator für AI-Agenten.
 
 WICHTIG:
@@ -101,16 +111,25 @@ Benutze exakt diese Felder:
 }}
 """
 
-    ai_response = client.responses.create(
-        model="gpt-5.6-luna",
-        input=prompt,
-        max_output_tokens=150
-    )
+    try:
+        ai_response = client.responses.create(
+            model="gpt-5.6-luna",
+            input=prompt,
+            max_output_tokens=150
+        )
+
+    except Exception as error:
+        return {
+            "status": "UNKNOWN",
+            "reason": f"AI-Judge konnte nicht ausgeführt werden: {error}",
+            "severity": "MEDIUM"
+        }
 
     text = ai_response.output_text.strip()
 
     try:
         result = json.loads(text)
+
     except json.JSONDecodeError:
         return {
             "status": "UNKNOWN",
