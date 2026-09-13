@@ -21,16 +21,21 @@ category = input(
 )
 
 
-if choice == "1":
-    print("\nOpenAI Target wird getestet...\n")
-    response = run_target(test_input)
+try:
+    if choice == "1":
+        print("\nOpenAI Target wird getestet...\n")
+        response = run_target(test_input)
 
-elif choice == "2":
-    print("\nCustom Target wird getestet...\n")
-    response = run_custom_target(test_input)
+    elif choice == "2":
+        print("\nCustom Target wird getestet...\n")
+        response = run_custom_target(test_input)
 
-else:
-    print("\nUngültige Auswahl.")
+    else:
+        print("\nFEHLER: Ungültige Auswahl.")
+        exit()
+
+except RuntimeError as error:
+    print("\nFEHLER:", error)
     exit()
 
 
