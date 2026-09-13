@@ -1,5 +1,5 @@
 {
-  "api_url": "http://127.0.0.1:5000/agent",
+ "api_url": "http://127.0.0.1:5000/agent",
   "method": "POST",
   "input_field": "input",
   "output_field": "output"

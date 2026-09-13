@@ -25,9 +25,15 @@ for category, tests in test_categories.items():
 
     for test_input in tests:
 
-        response = run_custom_target(
-            test_input
-        )
+        try:
+            response = run_custom_target(
+                test_input
+            )
+
+        except RuntimeError as error:
+            print("FEHLER:", error)
+            print("Scan wurde abgebrochen.")
+            exit()
 
         evaluation = evaluate_response(
             response=response,
