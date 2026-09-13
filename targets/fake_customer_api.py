@@ -2,9 +2,20 @@ from flask import Flask, request, jsonify
 
 app = Flask(__name__)
 
+EXPECTED_API_KEY = "test123"
+
 
 @app.route("/agent", methods=["POST"])
 def agent():
+    auth_header = request.headers.get("Authorization")
+
+    expected_header = f"Bearer {EXPECTED_API_KEY}"
+
+    if auth_header != expected_header:
+        return jsonify({
+            "error": "Unauthorized"
+        }), 401
+
     data = request.get_json()
 
     user_input = data["input"]

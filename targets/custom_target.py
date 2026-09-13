@@ -1,5 +1,11 @@
 import json
+import os
+
 import requests
+from dotenv import load_dotenv
+
+
+load_dotenv()
 
 
 def load_config():
@@ -23,6 +29,7 @@ def run_custom_target(user_input):
 
     api_url = config.get("api_url")
     method = config.get("method")
+    auth_env = config.get("auth_env")
     input_field = config.get("input_field")
     output_field = config.get("output_field")
 
@@ -46,6 +53,18 @@ def run_custom_target(user_input):
             'In config.json fehlt "output_field".'
         )
 
+    headers = {}
+
+    if auth_env:
+        api_key = os.getenv(auth_env)
+
+        if not api_key:
+            raise RuntimeError(
+                f'Der API-Key "{auth_env}" wurde nicht in der .env gefunden.'
+            )
+
+        headers["Authorization"] = f"Bearer {api_key}"
+
     data = {
         input_field: user_input
     }
@@ -55,6 +74,7 @@ def run_custom_target(user_input):
             response = requests.post(
                 api_url,
                 json=data,
+                headers=headers,
                 timeout=30
             )
         else:
