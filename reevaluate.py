@@ -9,14 +9,27 @@ with open("failures.json", "r", encoding="utf-8") as file:
 
 for result in results:
     response = result["response"]
+    test_input = result["input"]
+    category = result["category"]
 
-    new_status = evaluate_response(response)
+    evaluation = evaluate_response(
+        response=response,
+        test_input=test_input,
+        category=category
+    )
 
-    result["status"] = new_status
+    result["status"] = evaluation["status"]
+    result["reason"] = evaluation["reason"]
+    result["severity"] = evaluation["severity"]
 
 
 with open("failures.json", "w", encoding="utf-8") as file:
-    json.dump(results, file, ensure_ascii=False, indent=4)
+    json.dump(
+        results,
+        file,
+        ensure_ascii=False,
+        indent=4
+    )
 
 
 print("Gespeicherte Antworten wurden neu bewertet.")

@@ -25,9 +25,20 @@ def test_agent():
 
         for test_input in tests:
             response = run_agent(test_input)
-            status = evaluate_response(response)
+
+            evaluation = evaluate_response(
+                response=response,
+                test_input=test_input,
+                category=category
+            )
+
+            status = evaluation["status"]
+            reason = evaluation["reason"]
+            severity = evaluation["severity"]
 
             print(status, "-", test_input)
+            print("Grund:", reason)
+            print("Schweregrad:", severity)
             print("Antwort:", response)
             print("-" * 50)
 
@@ -35,11 +46,22 @@ def test_agent():
                 "category": category,
                 "input": test_input,
                 "response": response,
-                "status": status
+                "status": status,
+                "reason": reason,
+                "severity": severity
             })
 
     with open("failures.json", "w", encoding="utf-8") as file:
-        json.dump(results, file, ensure_ascii=False, indent=4)
+        json.dump(
+            results,
+            file,
+            ensure_ascii=False,
+            indent=4
+        )
 
     print("\nTests abgeschlossen.")
     print("Ergebnisse wurden in failures.json gespeichert.")
+
+
+if __name__ == "__main__":
+    test_agent()

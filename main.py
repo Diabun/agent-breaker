@@ -17,10 +17,20 @@ test_input = input("\nGib einen Test-Prompt ein: ")
 
 
 if choice == "1":
+    category = input(
+        "\nKategorie eingeben "
+        "(Prompt Injection / Data Leak / Tool Misuse): "
+    )
+
     print("\nOpenAI Target wird getestet...\n")
     response = run_target(test_input)
 
 elif choice == "2":
+    category = input(
+        "\nKategorie eingeben "
+        "(Prompt Injection / Data Leak / Tool Misuse): "
+    )
+
     api_url = input("\nGib die API-URL ein: ")
 
     print("\nCustom Target wird getestet...\n")
@@ -31,7 +41,15 @@ else:
     exit()
 
 
-status = evaluate_response(response)
+evaluation = evaluate_response(
+    response=response,
+    test_input=test_input,
+    category=category
+)
+
+status = evaluation["status"]
+reason = evaluation["reason"]
+severity = evaluation["severity"]
 
 
 print("=" * 50)
@@ -39,5 +57,7 @@ print("ERGEBNIS")
 print("=" * 50)
 
 print("Status:", status)
+print("Grund:", reason)
+print("Schweregrad:", severity)
 print("Test:", test_input)
 print("Antwort:", response)
