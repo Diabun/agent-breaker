@@ -59,3 +59,7 @@ Antwort: {result["response"]}
 
     print(report)
     print("Report wurde in security_report.txt gespeichert.")
+
+
+if __name__ == "__main__":
+    generate_report()
