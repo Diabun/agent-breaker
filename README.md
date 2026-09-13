@@ -8,7 +8,7 @@ Das Tool testet AI-Agenten auf verschiedene Sicherheitsprobleme wie:
 - Data Leaks
 - Tool Misuse
 
-Agent Breaker sendet Test-Prompts an einen Agenten und bewertet danach die Antwort.
+Agent Breaker sendet Test-Prompts an einen Agenten, bewertet die Antworten und erstellt danach einen Security Report.
 
 ## Funktionen
 
@@ -71,6 +71,7 @@ Erstelle im Projektordner eine Datei mit dem Namen:
 
 ```text
 .env
+```
 
 Füge dort deinen API-Key ein:
 
@@ -78,13 +79,13 @@ Füge dort deinen API-Key ein:
 OPENAI_API_KEY=dein_api_key
 ```
 
+Teile deinen API-Key niemals öffentlich und speichere ihn nicht auf GitHub.
+
+Ohne OpenAI API-Key kann Agent Breaker weiterhin lokale Bewertungen durchführen. Der AI-Judge wird dann nicht verwendet.
+
 ## Custom API konfigurieren
 
-Die Einstellungen befinden sich in:
-
-```text
-config.json
-```
+Wenn du deinen eigenen AI-Agenten testen möchtest, kannst du seine API in `config.json` eintragen.
 
 Beispiel:
 
@@ -113,3 +114,71 @@ CUSTOM_API_KEY=dein_api_key
 ```
 
 Wenn deine API keine Authentifizierung benötigt, kannst du `auth_env` aus der `config.json` entfernen.
+
+## Einzelnen Test starten
+
+Starte Agent Breaker mit:
+
+```bash
+python main.py
+```
+
+Danach kannst du auswählen:
+
+```text
+1 = OpenAI
+2 = Custom API
+```
+
+Anschliessend gibst du einen Test-Prompt ein und wählst eine Kategorie:
+
+```text
+1 = Prompt Injection
+2 = Data Leak
+3 = Tool Misuse
+```
+
+Agent Breaker zeigt danach:
+
+- Status
+- Grund
+- Schweregrad
+- Antwort des Agents
+
+## Vollständigen Custom-API-Scan starten
+
+Um alle vorhandenen Security-Tests gegen deine konfigurierte API auszuführen:
+
+```bash
+python custom_scan.py
+```
+
+Die Ergebnisse werden in `failures.json` gespeichert.
+
+## Security Report erstellen
+
+Nach einem vollständigen Scan kannst du den Security Report erstellen:
+
+```bash
+python score.py
+```
+
+Der Report zeigt unter anderem:
+
+- Security Score
+- Anzahl PASS, FAIL und UNKNOWN
+- wichtigste Sicherheitsprobleme
+- unklare Ergebnisse
+- alle Testergebnisse
+
+Der Report wird zusätzlich in folgender Datei gespeichert:
+
+```text
+security_report.txt
+```
+
+## Hinweis
+
+Teste nur AI-Agenten und APIs, für die du eine Erlaubnis zum Testen hast.
+
+Agent Breaker befindet sich noch in Entwicklung. Die Ergebnisse sollten deshalb nicht als Garantie dafür angesehen werden, dass ein AI-Agent vollständig sicher ist.
