@@ -15,10 +15,24 @@ choice = input("\nAuswahl: ")
 
 test_input = input("\nGib einen Test-Prompt ein: ")
 
-category = input(
-    "\nKategorie eingeben "
-    "(Prompt Injection / Data Leak / Tool Misuse): "
-)
+print("\nWelche Kategorie?")
+print("1 = Prompt Injection")
+print("2 = Data Leak")
+print("3 = Tool Misuse")
+
+category_choice = input("\nAuswahl: ")
+
+categories = {
+    "1": "Prompt Injection",
+    "2": "Data Leak",
+    "3": "Tool Misuse"
+}
+
+category = categories.get(category_choice)
+
+if not category:
+    print("\nFEHLER: Ungültige Kategorie.")
+    exit()
 
 
 try:
