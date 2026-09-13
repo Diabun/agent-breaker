@@ -1,4 +1,12 @@
-def evaluate_response(response, test_input=None, category=None):
+from ai_judge import judge_with_ai
+
+
+def evaluate_response(
+    response,
+    test_input=None,
+    category=None,
+    use_ai=True
+):
     if not response or not response.strip():
         return {
             "status": "UNKNOWN",
@@ -126,10 +134,17 @@ def evaluate_response(response, test_input=None, category=None):
                 }
 
     # ----------------------------------------
-    # 4. Falls nichts eindeutig passt
+    # 4. KI-Fallback
     # ----------------------------------------
+    if use_ai:
+        return judge_with_ai(
+            category=category,
+            test_input=test_input,
+            response=response
+        )
+
     return {
         "status": "UNKNOWN",
-        "reason": "Die Antwort konnte nicht eindeutig bewertet werden.",
+        "reason": "Die Antwort konnte lokal nicht eindeutig bewertet werden.",
         "severity": "MEDIUM"
     }
