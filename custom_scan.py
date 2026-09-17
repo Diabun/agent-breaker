@@ -1,4 +1,5 @@
 import json
+import os
 
 from targets.custom_target import run_custom_target
 from evaluator import evaluate_response
@@ -17,6 +18,8 @@ test_categories = {
 
 results = []
 
+if os.path.exists("failures.json"):
+    os.remove("failures.json")
 
 for category, tests in test_categories.items():
 
