@@ -129,4 +129,11 @@ def run_custom_target(user_input):
             "in der API-Antwort nicht gefunden."
         )
 
-    return result[output_field]
+    output = result[output_field]
+
+    if not isinstance(output, str):
+        raise RuntimeError(
+            f'Das Feld "{output_field}" muss Text enthalten.'
+        )
+
+    return output
